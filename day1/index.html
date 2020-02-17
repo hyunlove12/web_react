@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--<script crossorigin src="https://unpkg.com/react@16/umd/react.production.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom216/umd/react-dom.production.js"></script>-->
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+</head>
+<body>
+    <div id="root">
+
+    </div>
+    <script type="text/babel">
+        const e = React.createElement;
+
+        class LikeButton extends React.Component {
+            constructor(props){
+                super(props);
+                this.state = {
+                    liked:false,
+
+                };
+            }
+            render(){
+                // jsx문법  (js + xml)
+                // 태그 안에서 중괄호를 사용하면 자바스크립트 문법사용가능
+                // jsx는 createelement
+                return <button type="submit" onClick={() =>{ this.setState({ liked: true})} }>{this.state.liked === true?'Liked':'Like'}</button>;
+                // return e('button', {onClick:() => { this.setState({ liked: true})  }, type:'submit'},
+                 // this.state.liked === true?'Liked':'Like'); // <button>LIke</button>
+            }
+        }
+    </script>
+    <script type="text/babel">
+        // 실제 웹에 렌더링 해주면 역할 -> reactDom
+        //ReactDOM.render(e(LikeButton), document.querySelector("#root"));
+        // 컴포넌트를 추가하는만큼 생성된다.
+        ReactDOM.render(<div><LikeButton /><LikeButton /><LikeButton /><LikeButton /></div>, document.querySelector("#root"));
+    </script>
+</body>
+</html>
