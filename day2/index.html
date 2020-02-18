@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--<script crossorigin src="https://unpkg.com/react@16/umd/react.production.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom216/umd/react-dom.production.js"></script>-->
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+</head>
+<body>
+    <div id="root">
+
+    </div>
+    <script type="text/babel">
+
+
+        // 함수 컴포넌트안에서 setState, ref 등의 기능 사용 가능 -> Hooks
+        const Gugudan = () => {
+            // state 선언 -> state를 하나씩 분리
+            const [first, setFirst] = React.useState(Math.ceil(Math.random() * 9));
+            const [second, setSecond] = React.useState(Math.ceil(Math.random() * 9));
+            const [value, setValue] = React.useState('');
+            const [result, setResult] = React.useState('');
+            const [state, setState] = React.useState({
+                first : Math.ceil(Math.random() * 9),
+                second : Math.ceil(Math.random() * 9),
+                value : '',
+                result : ''
+            });
+
+            // ref 사용
+            const inputRef = React.useRef(null);
+
+            const onChangeInput = (e) => {
+                // setState
+                setValue(e.target.value);
+            }
+
+            const onSubmitForm = (e) => {
+               e.preventDefault();
+               var input = value;
+               if (parseInt(value) === first * second) {
+                     // setState블록으로 선언하면 하나의 값만 바꾸더라도 다 바꾸어줘야한다.
+                     // 블록안에 선언되지 않은 값은 사라진다.
+                    //  setState({
+                     //  result : '정답' + this.state.value + 'vs' + prevState.value,
+                    //   first : Math.ceil(Math.random() *9),
+                    //   second : Math.ceil(Math.random() *9),
+                    //   value : ''
+                   // });
+
+                    // setXxxx를 모아서 한번에 처리 -> 비동기라서 가능
+                    setResult((prevResult) => {
+                        '정답 :' + value
+                    });
+                    // setCounter((c) => c + 1);
+                    setFirst(Math.ceil(Math.random() * 9));
+                    setSecond(Math.ceil(Math.random() * 9));
+                    setValue('');
+                    // dom에 접근
+                    inputRef.current.focus();
+               } else {
+                    setResult('정답 :' + value);
+                    setValue('');
+                    inputRef.current.focus();
+               }
+            }
+            console.log('state가 변경되면 함수자체가 다시 실행된다.');
+            console.log('react는 html의 class를 사용하지 못한다. -> className으로 대체 react의 calss와 혼동되기 때문');
+            console.log('react는 html의 for를 사용하지 못한다. -> htmlFor로 대체');
+            return (
+                    <React.Fragment>
+                        <div>{first} 곱하기 {second}는?</div>
+                        <form onSubmit={onSubmitForm} >
+                            <input value={value} ref={inputRef} onChage={onChangeInput} />
+                            <button id="button" className="button" htmlFor="button">입력!</button>
+                        </form>
+                        <div id="result">{result}</div>
+                    </React.Fragment>
+                    )
+        }
+
+
+    </script>
+    <script type="text/babel">
+        // 실제 웹에 렌더링 해주면 역할 -> reactDom
+        //ReactDOM.render(e(LikeButton), document.querySelector("#root"));
+        // 컴포넌트를 추가하는만큼 생성된다.
+        ReactDOM.render(<Gugudan />, document.querySelector("#root"));
+    </script>
+</body>
+</html>
